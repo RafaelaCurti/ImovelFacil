@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { hash } from "bcrypt"
+import { hash } from "bcrypt";
 const prisma = new PrismaClient();
 
 export default {
@@ -52,18 +52,24 @@ export default {
             return response.status(500).json({ message: error.message });
         }
     },
+    
     async findUser(request, response) {
         try {
-            const { userId } = request.params;
+            const { id } = request.params; // Certifique-se de que 'id' é extraído dos parâmetros da URL
 
             const user = await prisma.user.findUnique({
-                where: { id: Number(userId) }
+                where: { id: Number(id) } // Converta 'id' para número
             });
+
+            if (!user) {
+                return response.status(404).json({ message: "Usuário não encontrado" });
+            }
+
             delete user.password;
             return response.json(user);
 
         } catch (error) {
-            return response.json({ message: error.message })
+            return response.status(500).json({ message: error.message });
         }
     }
-}
+};

@@ -5,9 +5,9 @@ export default {
   async createProperty(request, response) {
     try {
       // Verifica se o arquivo foi enviado
-    //   if (!request.file) {
-    //     return response.status(400).json({ message: "Nenhum arquivo enviado" });
-    //   }
+      if (!request.file) {
+        return response.status(400).json({ message: "Nenhum arquivo enviado" });
+      }
 
       const thumb = request.file.filename;
 
@@ -64,24 +64,25 @@ export default {
     try {
       const properties = await prisma.property.findMany({
         include: {
-          user: true, // Inclui dados do usuário associado
-        }
+          author: true, 
+        },
       });
-
+  
       return response.json(properties);
-
+  
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }
   },
+  
 
   async findProperty(request, response) {
     try {
-      const { slug } = request.params;
+      const { id } = request.params;  // Altere de slug para id
 
-      const property = await prisma.property.findFirst({
+      const property = await prisma.property.findUnique({
         where: {
-          slug: slug
+          id: Number(id)  // Use o id diretamente aqui
         }
       });
 
