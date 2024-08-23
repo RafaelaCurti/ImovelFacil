@@ -34,7 +34,7 @@ export default {
 
         }
         catch (error) {
-            return response.status(500).json({ message: error.message });
+            return response.status(500).json({ message: error.message, "email" : user.email });
         }
 
     }
