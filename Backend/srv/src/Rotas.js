@@ -10,7 +10,8 @@ const upload = multer(uploadConfig);
 const router = Router();
 
 // Rotas de Usuário
-router.post('/criarUsuarios', auth, UsuarioController.createUser);
+// router.post('/criarUsuarios', auth, UsuarioController.createUser);
+router.post('/criarUsuarios', UsuarioController.createUser);
 router.get('/listarUsuarios', auth, UsuarioController.findAllUser);
 router.get('/consultarUsuario/:id', auth, UsuarioController.findUser); // Certifique-se de que está usando o controlador correto
 
